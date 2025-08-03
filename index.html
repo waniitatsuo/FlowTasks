@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowQuests - Login</title>
+    <!-- Frameworks CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styleTelaInicial.css">
+    <link rel="stylesheet" href="css/styleLogin.css">
+</head>
+<body>
+    
+    <!-- ELEMENTO DA NOTIFICAÇÃO (começa invisível) -->
+    <div id="recovery-notification" class="recovery-notification-container">
+        <div class="notification is-success is-light has-text-centered">
+            <span class="icon"><i class="fas fa-check-circle"></i></span>
+            <strong>E-mail de recuperação enviado com sucesso!</strong>
+        </div>
+    </div>
+
+    <!-- ELEMENTO DA NOTIFICAÇÃO (começa invisível) -->
+    <div id="feedback-notification" class="feedback-notification-container">
+        <div class="notification is-success is-light has-text-centered">
+            <span class="icon"><i class="fas fa-check-circle"></i></span>
+            <strong id="notification-text"></strong>
+        </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+        <!-- Verifique se o caminho para a imagem está correto! -->
+        <img src="images/FlowQuests-Icon.png" alt="Logo da FlowQuests" style="max-width: 280px;">
+    </div>
+
+    <!-- Card de Login -->
+    <div class="login-card">
+        <form id="login-form">
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left">
+                    <!-- Adicionado 'required' e um ID -->
+                    <input id="email" class="input" type="email" placeholder="Seu email" required>
+                    <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left">
+                    <!-- Adicionado 'required' e um ID -->
+                    <input id="password" class="input" type="password" placeholder="Sua senha" required>
+                    <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
+                </div>
+                <a href="esqueci-senha.html" class="forgot-password">Forgot password?</a>
+            </div>
+            <div class="buttons">
+                <!-- O link foi trocado por um botão para o formulário funcionar -->
+                <button type="submit" class="button is-link is-fullwidth">
+                    <strong>Login</strong>
+                </button>
+            </div>
+        </form>
+        <div class="has-text-centered" style="margin-top: 1.5rem;">
+            <p>Não tem uma conta? <a href="cadastrar.html">Registre-se</a></p>
+        </div>
+    </div>
+    
+    <!-- SCRIPT PARA CONTROLAR A NOTIFICAÇÃO -->
+    <script>
+        // Executa o script assim que a página terminar de carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            // Pega os parâmetros da URL (ex: ?recovery_sent=true)
+            const urlParams = new URLSearchParams(window.location.search);
+            const recoverySent = urlParams.get('recovery_sent');
+
+            // Verifica se o parâmetro que enviamos da outra página existe
+            if (recoverySent === 'true') {
+                const notification = document.getElementById('recovery-notification');
+                
+                // 1. Mostra a notificação adicionando a classe .is-visible
+                notification.classList.add('is-visible');
+
+                // 2. Agenda a remoção da notificação após 5 segundos
+                setTimeout(() => {
+                    notification.classList.remove('is-visible');
+                }, 5000); // 5000 milissegundos = 5 segundos
+
+                // 3. Limpa a URL para que a notificação não apareça de novo se o usuário recarregar a página
+                history.replaceState(null, '', window.location.pathname);
+            }
+        });
+        // Adiciona um "ouvinte" para o envio do formulário de login
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Previne o recarregamento da página
+
+            // Aqui, no futuro, você colocaria a lógica para verificar o login no backend.
+            // Por enquanto, se a validação do navegador passar, ele apenas redireciona.
+        
+            console.log('Formulário validado com sucesso!');
+            window.location.href = 'dashboard.html';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recoverySent = urlParams.get('recovery_sent');
+            const registrationSuccess = urlParams.get('registration');
+
+            const notification = document.getElementById('feedback-notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            let message = '';
+
+            if (recoverySent === 'true') {
+                message = 'E-mail de recuperação enviado com sucesso!';
+            } else if (registrationSuccess === 'success') {
+                message = 'Conta criada com sucesso! Faça o login.';
+            }
+
+            if (message) {
+                notificationText.textContent = message;
+                notification.classList.add('is-visible');
+
+                setTimeout(() => {
+                    notification.classList.remove('is-visible');
+                }, 5000);
+
+                history.replaceState(null, '', window.location.pathname);
+            }
+        });
+    </script>
+
+</body>
+</html>

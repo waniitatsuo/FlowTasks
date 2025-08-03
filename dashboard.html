@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FlowQuests</title>
+    <!-- Frameworks CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styleDashboard.css">
+</head>
+<body>
+    <div id="dashboard-container" class="dashboard-container">
+        <!-- Coluna da Esquerda (Sidebar) -->
+        <aside class="sidebar">
+            <!-- Container do perfil com posicionamento relativo para ancorar o menu -->
+            <div style="position: relative;">
+                <div id="profile-button" class="profile">
+                    <img src="https://placehold.co/50x50/e2e8f0/e2e8f0" alt="Avatar do utilizador">
+                    <span class="name">Bia uwu</span>
+                </div>
+                <!-- Menu do Perfil -->
+                <div id="profile-menu" class="profile-menu">
+                    <div class="profile-menu-header">
+                        <img src="https://placehold.co/60x60/e2e8f0/e2e8f0" alt="Avatar do utilizador">
+                        <div class="profile-menu-info">
+                            <p class="username">Bia uwu #1234</p>
+                            <p class="level">Level 11 (47%)</p>
+                        </div>
+                    </div>
+                    <div class="profile-menu-body">
+                        <p class="menu-label">Menu</p>
+                        <ul class="menu-list">
+                            <li><a><span class="icon"><i class="fas fa-cog"></i></span> Configurações</a></li>
+                            <li><a><span class="icon"><i class="fas fa-user-friends"></i></span> Amigos</a></li>
+                            <li><a><span class="icon"><i class="fas fa-store"></i></span> Loja</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="logout-link">
+                <img src="images/SairButton.png" alt="Botão Sair">
+            </a>
+        </aside>
+
+        <!-- Coluna da Direita (Conteúdo) -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <!-- Botão do menu -->
+                <button id="sidebar-toggle-button" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="header-top">
+                    <div>
+                        <h1 class="header-title">Gestão de Tarefas</h1>
+                        <p class="header-points">Pontos Hoje: <strong>400</strong></p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div id="notification-button" class="notification-icon-wrapper">
+                            <span class="icon is-large has-text-white">
+                                <i class="fas fa-bell fa-2x"></i>
+                            </span>
+                            <span id="notification-badge" class="badge is-danger">1</span>
+                            <!-- Menu de Notificações -->
+                            <div id="notification-menu" class="notification-menu">
+                                <div class="notification-menu-header">
+                                    Notificações
+                                </div>
+                                <div class="notification-item">
+                                    <!-- Ícone trocado para 'fa-info-circle' -->
+                                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                                    <p>
+                                        <strong>Nova Conquista!</strong>
+                                        <span>Você alcançou o nível 10.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="xp-card">
+                            <i class="fas fa-medal"></i>
+                            <div class="xp-label">Total de XP</div>
+                            <div class="xp-total">600</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <progress class="progress is-white is-small" value="400" max="500"></progress>
+                    <div class="progress-labels">
+                        <span>0</span>
+                        <span>500</span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="tasks-area">
+                <div class="tasks-header">
+                    <h2 class="tasks-title">Tarefas Pendentes</h2>
+                    <span class="icon tasks-options"><i class="fas fa-list-ul"></i></span>
+                </div>
+
+                <!-- Container onde as tarefas serão adicionadas -->
+                <div id="tasks-container">
+                    
+                </div>
+            </section>
+        </main>
+        
+        <!-- Botão Flutuante para Adicionar Tarefa -->
+        <button id="add-task-button" class="fab-button">+</button>
+    </div>
+
+    <!-- MODAL PARA ADICIONAR TAREFA -->
+    <div id="add-task-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button">&times;</button>
+            <h2 class="title is-4">Criar Nova tarefa</h2>
+            
+            <form id="task-form">
+                <div class="field">
+                    <label class="label">Nome da Tarefa</label>
+                    <div class="control">
+                        <input id="task-name" class="input" type="text" placeholder="Ex: Tomar remédio" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Data da Tarefa</label>
+                    <div class="control">
+                        <input id="task-date" class="input" type="date" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Horário da Tarefa</label>
+                    <div class="control">
+                        <input id="task-time" class="input" type="time" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Categoria</label>
+                    <div class="control">
+                        <div class="select is-fullwidth">
+                            <select id="task-category" required>
+                                <option value="remedios">Remédios</option>
+                                <option value="atividades">Atividades</option>
+                                <option value="trabalhos">Trabalhos</option>
+                                <option value="eventos">Eventos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field" style="margin-top: 2rem;">
+                    <div class="control">
+                        <button type="submit" class="button is-dark is-fullwidth">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PARA CONFIRMAR TAREFA -->
+    <div id="confirm-task-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="title is-4 has-text-centered">Confirmar Tarefa</h2>
+            <p class="has-text-centered" style="margin-bottom: 2rem;">Você tem certeza que completou esta tarefa?</p>
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <button id="cancel-completion-button" class="button is-light">Cancelar</button>
+                </p>
+                <p class="control">
+                    <button id="confirm-completion-button" class="button is-success">Confirmar</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPT PARA TODAS AS FUNCIONALIDADES -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- LÓGICA DA SIDEBAR ---
+            const toggleButton = document.getElementById('sidebar-toggle-button');
+            const dashboardContainer = document.getElementById('dashboard-container');
+            const toggleIcon = toggleButton.querySelector('i');
+
+            toggleButton.addEventListener('click', () => {
+                dashboardContainer.classList.toggle('sidebar-collapsed');
+                if (dashboardContainer.classList.contains('sidebar-collapsed')) {
+                    toggleIcon.classList.remove('fa-bars');
+                    toggleIcon.classList.add('fa-chevron-right');
+                } else {
+                    toggleIcon.classList.remove('fa-chevron-right');
+                    toggleIcon.classList.add('fa-bars');
+                }
+            });
+
+            // --- LÓGICA DO MENU DE PERFIL ---
+            const profileButton = document.getElementById('profile-button');
+            const profileMenu = document.getElementById('profile-menu');
+
+            profileButton.addEventListener('click', (event) => {
+                event.stopPropagation(); // Impede que o clique feche o menu imediatamente
+                profileMenu.classList.toggle('is-active');
+            });
+
+            // --- LÓGICA DO MENU DE NOTIFICAÇÕES ---
+            const notificationButton = document.getElementById('notification-button');
+            const notificationMenu = document.getElementById('notification-menu');
+            const notificationBadge = document.getElementById('notification-badge');
+
+            notificationButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                notificationMenu.classList.toggle('is-active');
+                // Esconde o badge ao abrir o menu
+                if (notificationMenu.classList.contains('is-active')) {
+                    notificationBadge.style.opacity = '0';
+                }
+            });
+
+            // Fecha os menus se clicar em qualquer outro lugar da página
+            document.addEventListener('click', (event) => {
+                if (!profileMenu.contains(event.target) && !profileButton.contains(event.target)) {
+                    profileMenu.classList.remove('is-active');
+                }
+                if (!notificationMenu.contains(event.target) && !notificationButton.contains(event.target)) {
+                    notificationMenu.classList.remove('is-active');
+                }
+            });
+
+
+            // --- LÓGICA DO MODAL DE ADICIONAR TAREFA ---
+            const addTaskButton = document.getElementById('add-task-button');
+            const addTaskModal = document.getElementById('add-task-modal');
+            const closeAddTaskModalButton = addTaskModal.querySelector('.modal-close-button');
+            const taskForm = document.getElementById('task-form');
+            const tasksContainer = document.getElementById('tasks-container');
+
+            const openAddTaskModal = () => addTaskModal.classList.add('is-active');
+            const closeAddTaskModal = () => addTaskModal.classList.remove('is-active');
+
+            addTaskButton.addEventListener('click', openAddTaskModal);
+            closeAddTaskModalButton.addEventListener('click', closeAddTaskModal);
+            addTaskModal.addEventListener('click', (event) => {
+                if (event.target === addTaskModal) closeAddTaskModal();
+            });
+
+            // --- LÓGICA DO MODAL DE CONFIRMAÇÃO ---
+            const confirmTaskModal = document.getElementById('confirm-task-modal');
+            const confirmCompletionButton = document.getElementById('confirm-completion-button');
+            const cancelCompletionButton = document.getElementById('cancel-completion-button');
+            let taskToComplete = null; // Variável para guardar a tarefa a ser completada
+
+            const openConfirmModal = (taskElement) => {
+                taskToComplete = taskElement;
+                confirmTaskModal.classList.add('is-active');
+            };
+            const closeConfirmModal = () => {
+                taskToComplete = null;
+                confirmTaskModal.classList.remove('is-active');
+            };
+
+            cancelCompletionButton.addEventListener('click', closeConfirmModal);
+            confirmTaskModal.addEventListener('click', (event) => {
+                if (event.target === confirmTaskModal) closeConfirmModal();
+            });
+
+            confirmCompletionButton.addEventListener('click', () => {
+                if (taskToComplete) {
+                    taskToComplete.remove(); // Remove o card da tarefa
+                }
+                closeConfirmModal();
+            });
+
+            // --- LÓGICA DE ADICIONAR E COMPLETAR TAREFAS ---
+            tasksContainer.addEventListener('click', (event) => {
+                // Verifica se o clique foi no ícone de completar tarefa
+                if (event.target.classList.contains('complete-task-icon')) {
+                    const taskCard = event.target.closest('.task-card');
+                    openConfirmModal(taskCard);
+                }
+            });
+            
+            taskForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const taskName = document.getElementById('task-name').value;
+                const taskDate = document.getElementById('task-date').value;
+                const taskTime = document.getElementById('task-time').value;
+                const taskCategory = document.getElementById('task-category').value;
+                const formattedDate = new Date(taskDate + 'T00:00:00').toLocaleDateString('pt-BR');
+
+                const taskCard = document.createElement('div');
+                taskCard.className = `task-card ${taskCategory}`;
+                taskCard.innerHTML = `
+                    <h3>${taskName.toUpperCase()}</h3>
+                    <p><strong>Data:</strong> ${formattedDate}</p>
+                    <p><strong>Horário:</strong> ${taskTime}</p>
+                    <div class="task-footer">
+                        <p><strong>Recompensa:</strong> 50XP</p>
+                        <img src="images/thumbs-up.png" alt="Completar Tarefa" class="complete-task-icon">
+                    </div>
+                `;
+                tasksContainer.prepend(taskCard);
+                taskForm.reset();
+                closeAddTaskModal();
+            });
+        });
+    </script>
+</body>
+</html>
