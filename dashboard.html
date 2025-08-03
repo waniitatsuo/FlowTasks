@@ -12,7 +12,7 @@
 <body>
     <div id="dashboard-container" class="dashboard-container">
         <!-- Coluna da Esquerda (Sidebar) -->
-        <aside class="sidebar">
+        <aside id="sidebar" class="sidebar">
             <!-- Container do perfil com posicionamento relativo para ancorar o menu -->
             <div style="position: relative;">
                 <div id="profile-button" class="profile">
@@ -46,11 +46,10 @@
         <!-- Coluna da Direita (Conteúdo) -->
         <main class="main-content">
             <header class="dashboard-header">
-                <!-- Botão do menu -->
+                <!-- Botão movido para dentro do header para um posicionamento mais fiável -->
                 <button id="sidebar-toggle-button" class="sidebar-toggle">
                     <i class="fas fa-bars"></i>
                 </button>
-
                 <div class="header-top">
                     <div>
                         <h1 class="header-title">Gestão de Tarefas</h1>
@@ -93,7 +92,8 @@
                 </div>
             </header>
 
-            <section class="tasks-area">
+            <br><br>
+<section class="tasks-area">
                 <div class="tasks-header">
                     <h2 class="tasks-title">Tarefas Pendentes</h2>
                     <span class="icon tasks-options"><i class="fas fa-list-ul"></i></span>
@@ -150,7 +150,7 @@
                 </div>
                 <div class="field" style="margin-top: 2rem;">
                     <div class="control">
-                        <button type="submit" class="button is-dark is-fullwidth">Submit</button>
+                        <button type="submit" class="button is-dark is-fullwidth">Salvar Tarefa</button>
                     </div>
                 </div>
             </form>
@@ -179,12 +179,22 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- LÓGICA DA SIDEBAR ---
             const toggleButton = document.getElementById('sidebar-toggle-button');
+            const sidebar = document.getElementById('sidebar');
             const dashboardContainer = document.getElementById('dashboard-container');
             const toggleIcon = toggleButton.querySelector('i');
 
             toggleButton.addEventListener('click', () => {
-                dashboardContainer.classList.toggle('sidebar-collapsed');
-                if (dashboardContainer.classList.contains('sidebar-collapsed')) {
+                // Lógica para Desktop
+                if (window.innerWidth > 768) {
+                    dashboardContainer.classList.toggle('sidebar-collapsed');
+                } else {
+                    // Lógica para Mobile
+                    sidebar.classList.toggle('is-active');
+                }
+
+                // Troca o ícone
+                const isSidebarOpen = sidebar.classList.contains('is-active') || !dashboardContainer.classList.contains('sidebar-collapsed');
+                if (!isSidebarOpen) {
                     toggleIcon.classList.remove('fa-bars');
                     toggleIcon.classList.add('fa-chevron-right');
                 } else {
@@ -223,6 +233,10 @@
                 }
                 if (!notificationMenu.contains(event.target) && !notificationButton.contains(event.target)) {
                     notificationMenu.classList.remove('is-active');
+                }
+                 // Fecha a sidebar mobile se clicar fora dela
+                if (window.innerWidth <= 768 && sidebar.classList.contains('is-active') && !sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                    sidebar.classList.remove('is-active');
                 }
             });
 
@@ -296,7 +310,7 @@
                     <p><strong>Horário:</strong> ${taskTime}</p>
                     <div class="task-footer">
                         <p><strong>Recompensa:</strong> 50XP</p>
-                        <img src="images/thumbs-up.png" alt="Completar Tarefa" class="complete-task-icon">
+                        <img src="images/Thumbs-up.png" alt="Completar Tarefa" class="complete-task-icon">
                     </div>
                 `;
                 tasksContainer.prepend(taskCard);
